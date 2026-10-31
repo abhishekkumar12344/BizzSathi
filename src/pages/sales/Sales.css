@@ -1,0 +1,128 @@
+.pos-container {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 1.5rem;
+  height: calc(100vh - 120px);
+}
+
+.pos-left {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.pos-search-bar {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+  background: #fafcfa;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.pos-items-table {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.pos-right {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  overflow-y: auto;
+}
+
+.pos-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  padding: 0.35rem 0;
+  color: var(--color-muted);
+}
+
+.pos-summary-row.total {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  border-top: 2px dashed var(--color-border);
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+}
+
+/* Printable Invoice Modal Styles */
+.invoice-paper {
+  background: white;
+  padding: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: Arial, sans-serif;
+  color: #1a1a1a;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.invoice-header-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #16834A;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.85rem;
+}
+
+.invoice-table th {
+  background-color: #f1f8f3;
+  color: #105C36;
+  border: 1px solid #d3e4d7;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.invoice-table td {
+  border: 1px solid #e5ece6;
+  padding: 0.5rem 0.75rem;
+}
+
+.invoice-totals-box {
+  width: 280px;
+  margin-left: auto;
+  font-size: 0.875rem;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .invoice-paper, .invoice-paper * {
+    visibility: visible;
+  }
+  .invoice-paper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none;
+    padding: 0;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .pos-container {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+}

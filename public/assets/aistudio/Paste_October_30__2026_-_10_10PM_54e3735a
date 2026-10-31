@@ -1,0 +1,935 @@
+# PROJECT MASTER PROMPT: BIZSATHI
+## Smart Business Management SaaS for Indian Small Businesses
+
+### 1. Project Overview
+
+Act as a senior full-stack software engineer, SaaS architect, UI/UX designer, database architect, QA engineer, and DevOps engineer.
+
+Build a complete, production-minded full-stack web application named **BizSathi**, designed to help Indian small business owners manage their daily business operations from one platform.
+
+The platform should be suitable for retailers, wholesalers, distributors, electrical shops, hardware stores, mobile-accessory businesses, and other small businesses.
+
+The objective is to build a working product that can be deployed publicly, tested by real users, included in a professional developer portfolio, and potentially monetized as a SaaS business.
+
+Do not create only a static UI or demo dashboard. Implement real frontend-backend integration, persistent database storage, authentication, authorization, business logic, validation, error handling, and automated tests.
+
+### 2. Mandatory Technology Stack
+
+Frontend:
+- React with Vite.
+- JavaScript.
+- React Router DOM.
+- Axios for API communication.
+- Pure CSS with separate CSS files for components and pages.
+- Recharts for charts and analytics.
+- React Hook Form for form handling.
+- A suitable icon library such as Lucide React.
+- Use React Context where shared authentication state is needed.
+
+Backend:
+- Node.js.
+- Express.js.
+- MongoDB.
+- Mongoose.
+- RESTful API architecture.
+- Secure password hashing using bcrypt or bcryptjs.
+- Choose one coherent authentication strategy: preferably secure, HTTP-only cookie-based sessions or short-lived access tokens with a secure refresh-token design.
+- Zod, Joi, or express-validator for input validation.
+- Helmet, CORS configuration, rate limiting, and centralized error handling.
+
+Testing:
+- Vitest and React Testing Library for frontend tests.
+- Jest or Vitest with Supertest for backend API tests.
+- MongoDB test database or an isolated test environment.
+
+Deployment:
+- Frontend: Vercel or Netlify.
+- Backend: Render or another Node.js-compatible host.
+- Database: MongoDB Atlas.
+- GitHub for source control and CI/CD.
+
+Strict constraints:
+- Do not use Tailwind CSS.
+- Do not use Bootstrap.
+- Do not store business records only in localStorage.
+- Do not expose secrets or database credentials in frontend code.
+- Do not use fake data as if it were live production data.
+- Avoid unnecessary microservices and overengineering.
+- Use JavaScript consistently unless a migration to TypeScript is explicitly approved.
+
+### 3. Product Design and Branding
+
+Brand name: BizSathi.
+
+Brand positioning:
+"Your Business. One Simple Platform."
+
+Design a professional, modern, trustworthy SaaS interface for Indian business owners.
+
+Color palette:
+- Primary green: #16834A
+- Dark green: #105C36
+- White: #FFFFFF
+- Soft background: #F6F9F6
+- Accent yellow: #F4C542
+- Main text: #202820
+- Muted text: #69756B
+- Borders: #E2E9E2
+- Error: #C62828
+
+Design requirements:
+- Clean and spacious dashboard.
+- Responsive sidebar on desktop.
+- Mobile-friendly drawer navigation.
+- Responsive tables and data cards.
+- Professional typography and consistent spacing.
+- Light theme initially.
+- Loading skeletons, empty states, confirmation dialogs, and helpful error messages.
+- Accessible labels, keyboard navigation, and visible focus states.
+- Toast notifications for successful and failed actions.
+- Consistent buttons, forms, tables, modals, cards, and badges.
+- Separate CSS files for each major page and component.
+- Avoid excessive gradients, unnecessary animations, and cluttered interfaces.
+- Use a responsive design system with CSS variables.
+- Provide polished desktop, tablet, and mobile layouts.
+
+Create a public landing page with:
+- Hero section.
+- Product features.
+- How it works.
+- Target industries.
+- Pricing section.
+- Frequently asked questions.
+- Contact section.
+- Login and signup calls to action.
+- Footer, privacy policy, terms, and support links.
+
+Do not invent testimonials, customer logos, business metrics, or user counts.
+
+### 4. User Roles and Permissions
+
+Implement role-based access control with the following roles.
+
+A. Platform Super Admin:
+- View platform-level business account statistics.
+- Manage business accounts.
+- Activate, suspend, or reactivate accounts.
+- Manage subscription plans.
+- Review support requests.
+- View platform audit events.
+- Monitor operational health and failed jobs.
+- Access only the minimum necessary business data for legitimate administrative tasks.
+
+B. Business Owner:
+- Manage their own business profile.
+- Invite employees where enabled.
+- Create and manage products.
+- Manage customers and suppliers.
+- Create sales and invoices.
+- Record payments and expenses.
+- View reports and business settings.
+- Manage employee permissions.
+
+C. Manager:
+- Manage permitted inventory, customers, sales, and reports.
+- Cannot access platform administration.
+- Cannot modify owner-only security or subscription settings unless explicitly authorized.
+
+D. Staff:
+- Access only the modules and actions permitted by the owner.
+- Cannot manage other business accounts.
+- Cannot access platform administration.
+
+Requirements:
+- Implement permissions on the backend, not just by hiding frontend buttons.
+- A user may belong to one or more businesses if membership support is enabled.
+- Enforce tenant isolation on every business-owned resource.
+- Never trust a client-provided businessId without checking membership and permission.
+- Prevent unauthorized object references and cross-tenant data access.
+- Create an initial platform admin through a secure provisioning process, not a publicly available admin signup.
+- Record sensitive administrative actions in an audit log.
+
+### 5. Authentication and Onboarding
+
+Implement:
+- Business owner registration.
+- Login and logout.
+- Secure password hashing.
+- Email verification.
+- Password reset through expiring, single-use tokens.
+- Protected frontend routes.
+- Authentication middleware.
+- Account status checks.
+- Secure cookie configuration when cookie-based authentication is selected.
+- Appropriate CSRF protection for cookie-authenticated state-changing requests.
+- Login and password-reset rate limits.
+- Session invalidation and logout behavior.
+- Input validation and consistent API error responses.
+
+Registration workflow:
+1. User registers.
+2. Validate the submitted data.
+3. Create the user securely.
+4. Create the business account.
+5. Create the owner membership.
+6. Commit related database changes safely.
+7. Send email verification.
+8. Guide the owner through business onboarding.
+9. Display the business dashboard.
+
+Make registration idempotent where appropriate and avoid partially created accounts.
+
+### 6. Business Profile and Settings
+
+Each business should have:
+- Business name.
+- Business type.
+- Owner details.
+- Email and phone.
+- Address.
+- State and PIN code.
+- Currency, default INR.
+- Time zone, default Asia/Kolkata.
+- Invoice prefix and sequence configuration.
+- Optional logo.
+- Configurable tax fields.
+- Payment instructions.
+- Business-specific settings.
+
+Requirements:
+- Validate business profile fields.
+- Restrict updates to authorized owners or managers.
+- Support business-specific invoice formatting.
+- Avoid requiring sensitive government identifiers unless a feature genuinely needs them.
+
+### 7. Dashboard
+
+Create a live business dashboard using real API data.
+
+Display:
+- Today's sales.
+- Sales for the selected period.
+- Number of sales.
+- Amount collected.
+- Outstanding customer balances.
+- Recorded expenses.
+- Estimated gross profit where purchase cost data is available.
+- Low-stock products.
+- Recent sales.
+- Recent payments.
+- Sales trend chart.
+- Top-selling products.
+
+Features:
+- Date range filters.
+- Weekly, monthly, and custom reporting periods.
+- Loading skeletons.
+- Empty states.
+- Error and retry states.
+- Mobile-friendly charts.
+- Exportable reports where appropriate.
+
+Use aggregation pipelines or efficient database queries. Do not fetch the entire database and calculate all metrics in the browser.
+
+Define each financial metric precisely. Do not label sales revenue as profit or collected payments as total sales.
+
+### 8. Product and Inventory Management
+
+Product fields:
+- Product name.
+- SKU.
+- Barcode, optional.
+- Category.
+- Description.
+- Unit.
+- Selling price.
+- Purchase cost.
+- Current stock.
+- Minimum stock threshold.
+- Optional supplier.
+- Active or archived status.
+- Created and updated timestamps.
+- Business ownership reference.
+
+Features:
+- Create, view, edit, archive, and search products.
+- Filter by category and stock status.
+- Pagination and sorting.
+- Bulk CSV import with validation and error reports.
+- CSV export.
+- Low-stock indicators.
+- Stock adjustment records.
+- Stock movement history.
+- Prevent invalid negative stock unless explicitly supported by business policy.
+
+Inventory rules:
+- Record stock movements instead of silently overwriting historical inventory.
+- Validate quantities and prices on the server.
+- Use atomic database updates and appropriate transactions for sales.
+- Handle concurrent sales safely.
+- Prevent duplicate SKUs within the same business when SKU uniqueness is enabled.
+- Keep an audit trail for manual stock corrections.
+
+### 9. Category Management
+
+Features:
+- Create, rename, and archive categories.
+- Filter products by category.
+- Prevent accidental deletion of categories containing active products.
+- Enforce business ownership.
+- Prevent duplicate category names within the same business where required.
+
+### 10. Customer Management
+
+Customer fields:
+- Name.
+- Phone number.
+- Email, optional.
+- Billing address, optional.
+- Notes.
+- Opening balance, if enabled.
+- Business ownership reference.
+- Created and updated timestamps.
+
+Features:
+- Add and edit customers.
+- Search by name or phone.
+- View customer purchase history.
+- View invoices and payment history.
+- View outstanding balance.
+- Record credit sales.
+- Record payments against outstanding invoices.
+- Export customer reports.
+
+Ledger requirements:
+- Keep an immutable history of financial transactions.
+- Use a defined debit/credit or receivable calculation model.
+- Do not change historical invoices to simulate payments.
+- Handle refunds, reversals, and corrections through traceable records.
+- Restrict access to the correct business.
+
+### 11. Supplier Management
+
+Supplier fields:
+- Supplier name.
+- Contact person.
+- Phone and email.
+- Address.
+- Notes.
+- Business ownership reference.
+
+Features:
+- Add, edit, search, and archive suppliers.
+- Link suppliers to products and purchase records.
+- Track supplier purchase history.
+- Keep supplier-related records business-specific.
+
+### 12. Sales and Billing
+
+Build a complete sales workflow.
+
+Sales form:
+- Select customer or walk-in customer.
+- Add multiple products.
+- Enter quantities.
+- Apply permitted discounts.
+- Configure applicable tax fields.
+- Calculate line totals and invoice totals.
+- Select payment method.
+- Support paid, partially paid, and unpaid sales.
+- Add notes.
+- Preview invoice before saving.
+
+Invoice features:
+- Generate a unique invoice number within the business.
+- Generate printable and downloadable PDF invoices.
+- Include business details, customer details, item descriptions, quantities, prices, discounts, tax breakdown, totals, and payment status.
+- Support A4 and compact invoice layouts where practical.
+- Reprint existing invoices without changing their financial data.
+- Search, filter, paginate, and export sales records.
+
+Critical requirements:
+- Recalculate all totals on the server.
+- Never trust frontend-supplied prices, taxes, discounts, or totals.
+- Use decimal-safe monetary calculations, such as integer minor currency units or a suitable decimal library.
+- Use transaction-safe invoice number allocation.
+- Avoid duplicate invoices during retries.
+- Update stock and create stock movements atomically with the sale.
+- Record payments as separate transactions.
+- Support controlled cancellation and refund workflows.
+- Preserve historical invoice snapshots when products or customer details change.
+- Use database transactions when supported by the deployed database configuration.
+- Implement idempotency for sale creation where appropriate.
+
+Tax and compliance:
+- Support configurable tax rates and tax breakdowns.
+- Treat GST settings as configurable business data.
+- Do not claim that generated invoices are legally GST-compliant in every situation.
+- Validate statutory requirements with a qualified professional before marketing compliance features.
+
+### 13. Payment Management
+
+Support recording payments made through:
+- Cash.
+- UPI.
+- Bank transfer.
+- Card.
+- Other configurable methods.
+
+Features:
+- Record full and partial payments.
+- Link payments to invoices.
+- Track payment dates and references.
+- Calculate outstanding balances.
+- Display payment history.
+- Support payment reversals and refunds through traceable entries.
+- Provide daily and monthly collection reports.
+
+Initially, this is a record-keeping feature, not a payment gateway.
+
+If online payment collection is added later:
+- Integrate a supported provider such as Razorpay or Cashfree.
+- Verify webhook signatures.
+- Handle duplicate webhooks idempotently.
+- Never store card details.
+- Never mark payments as successful based only on a browser redirect.
+
+### 14. Expense Management
+
+Expense fields:
+- Expense category.
+- Description.
+- Amount.
+- Date.
+- Payment method.
+- Optional receipt attachment.
+- Business ownership reference.
+
+Features:
+- Create and edit draft expenses.
+- Record finalized expenses.
+- Filter by date and category.
+- View expense totals.
+- Export expense reports.
+- Keep an audit history for financial corrections.
+
+Define expense recognition and profit calculations consistently. Do not double-count purchases as both cost of goods sold and expenses in profit reports.
+
+### 15. Reports and Analytics
+
+Implement:
+- Daily sales report.
+- Monthly sales report.
+- Payment collection report.
+- Outstanding receivables report.
+- Inventory valuation report.
+- Low-stock report.
+- Product sales report.
+- Customer purchase report.
+- Expense report.
+- Profit estimates based on available cost and sales data.
+
+Requirements:
+- Server-side filtering and aggregation.
+- Date range selection.
+- Business timezone awareness.
+- CSV export.
+- Consistent monetary calculations.
+- Clear definitions for each metric.
+- Permission checks for financial reports.
+
+### 16. Notifications and Reminders
+
+Implement an extensible notification system for:
+- Low-stock products.
+- Overdue invoices.
+- Payment reminders.
+- Important account notifications.
+- Platform announcements.
+
+Start with in-app notifications and optional email.
+
+Requirements:
+- Notification read/unread status.
+- User notification preferences.
+- Deduplication.
+- Scheduled jobs for reminders.
+- Retry handling for transient failures.
+- Unsubscribe controls for applicable email notifications.
+- Respect customer consent and applicable messaging rules.
+
+Add WhatsApp Business API integration only after the core product works and the required provider access and user consent are configured.
+
+### 17. Subscription and SaaS Administration
+
+Prepare the platform for a future subscription model.
+
+Potential plans:
+- Free.
+- Starter.
+- Pro.
+
+Plan configuration may include:
+- Maximum products.
+- Maximum staff accounts.
+- Monthly invoice limits.
+- Report access.
+- Export features.
+- Support tier.
+
+Features:
+- Platform admin plan management.
+- Business subscription status.
+- Usage tracking.
+- Feature entitlement checks on the backend.
+- Trial and expiration support.
+- Subscription upgrade workflow.
+- Subscription audit records.
+
+Do not integrate paid billing in the first MVP unless the core business workflow is stable. When subscription payments are added, use a supported provider and verified webhooks.
+
+### 18. Super Admin Panel
+
+Build a separate platform administration interface.
+
+Pages:
+- Admin login.
+- Platform overview.
+- Business accounts.
+- Business account details.
+- Subscription plans.
+- Support tickets.
+- Audit logs.
+- Operational status.
+- Admin profile and settings.
+
+Features:
+- Search and filter accounts.
+- Suspend and reactivate accounts with a recorded reason.
+- Manage plans and entitlements.
+- Review platform-level metrics.
+- Track administrative changes.
+- Restrict sensitive actions to authorized platform administrators.
+
+Security:
+- Never use a publicly available super-admin registration endpoint.
+- Never rely on frontend role checks alone.
+- Enforce server-side authorization for every admin API.
+- Record sensitive actions with actor, timestamp, target, and reason.
+- Avoid unrestricted access to customer financial data.
+- Require additional confirmation for destructive actions.
+
+### 19. Support System
+
+Implement a basic support workflow:
+- Business owner creates a support ticket.
+- Ticket has a subject, category, priority, description, and status.
+- Admin or authorized support staff can respond.
+- Ticket history is preserved.
+- Users can see only tickets they are authorized to access.
+- Add timestamps and status changes.
+- Prevent unauthorized cross-business access.
+
+### 20. Database Architecture
+
+Create Mongoose models for at least:
+- User.
+- Business.
+- BusinessMembership.
+- Product.
+- Category.
+- Customer.
+- Supplier.
+- StockMovement.
+- Sale.
+- SaleItem, if modeled separately.
+- Payment.
+- Expense.
+- Notification.
+- Subscription.
+- SubscriptionPlan.
+- SupportTicket.
+- AuditLog.
+
+Use references and embedding appropriately.
+
+Requirements:
+- Add indexes for frequent queries.
+- Use compound indexes for business-scoped lookups.
+- Add database constraints where supported.
+- Validate records at the application layer.
+- Use timestamps.
+- Define deletion and archival policies.
+- Preserve financial history.
+- Avoid hard deletion of finalized financial records.
+- Design atomic stock and payment updates.
+- Keep all tenant-owned data linked to a business.
+- Use transactions for related financial and inventory operations when supported.
+
+Produce a database relationship diagram and explain the most important schema decisions.
+
+### 21. Backend API Architecture
+
+Use modular feature folders with routes, controllers, services, validators, and models.
+
+Suggested endpoints:
+
+Authentication:
+- POST /api/auth/register
+- POST /api/auth/login
+- POST /api/auth/logout
+- GET /api/auth/me
+- POST /api/auth/forgot-password
+- POST /api/auth/reset-password
+- POST /api/auth/verify-email
+
+Business:
+- GET /api/business
+- PATCH /api/business
+
+Dashboard:
+- GET /api/dashboard/summary
+- GET /api/dashboard/sales-trend
+- GET /api/dashboard/top-products
+
+Products:
+- GET /api/products
+- POST /api/products
+- GET /api/products/:id
+- PATCH /api/products/:id
+- DELETE /api/products/:id, implemented as archive where appropriate
+
+Categories:
+- GET /api/categories
+- POST /api/categories
+- PATCH /api/categories/:id
+- DELETE /api/categories/:id, with reference checks
+
+Customers:
+- GET /api/customers
+- POST /api/customers
+- GET /api/customers/:id
+- PATCH /api/customers/:id
+- GET /api/customers/:id/ledger
+
+Suppliers:
+- GET /api/suppliers
+- POST /api/suppliers
+- GET /api/suppliers/:id
+- PATCH /api/suppliers/:id
+
+Sales:
+- GET /api/sales
+- POST /api/sales
+- GET /api/sales/:id
+- POST /api/sales/:id/payments
+- POST /api/sales/:id/cancel
+- POST /api/sales/:id/refunds
+- GET /api/sales/:id/invoice
+
+Expenses:
+- GET /api/expenses
+- POST /api/expenses
+- PATCH /api/expenses/:id
+
+Reports:
+- GET /api/reports/sales
+- GET /api/reports/expenses
+- GET /api/reports/inventory
+- GET /api/reports/receivables
+
+Administration:
+- GET /api/admin/overview
+- GET /api/admin/businesses
+- PATCH /api/admin/businesses/:id/status
+- GET /api/admin/plans
+- POST /api/admin/plans
+- GET /api/admin/audit-logs
+
+Support:
+- GET /api/support/tickets
+- POST /api/support/tickets
+- GET /api/support/tickets/:id
+- PATCH /api/support/tickets/:id
+
+These are suggested routes. Implement only the routes supported by the current phase, and document any differences.
+
+API requirements:
+- Consistent JSON responses.
+- Correct HTTP status codes.
+- Pagination, filtering, and sorting.
+- Server-side validation.
+- Authentication and authorization middleware.
+- Tenant isolation.
+- Centralized error handling.
+- Request ID or correlation ID.
+- API documentation using OpenAPI/Swagger.
+- Rate limits for sensitive endpoints.
+- No stack traces or secrets in production responses.
+
+### 22. Frontend Pages
+
+Public:
+- Home.
+- Features.
+- Pricing.
+- Contact.
+- Login.
+- Register.
+- Forgot password.
+- Reset password.
+- Privacy policy.
+- Terms of service.
+
+Business application:
+- Dashboard.
+- Products.
+- Add/edit product.
+- Categories.
+- Customers.
+- Customer ledger.
+- Suppliers.
+- Sales.
+- Create sale.
+- Sale details.
+- Invoice preview.
+- Expenses.
+- Reports.
+- Notifications.
+- Business settings.
+- Team and permissions.
+- Subscription and usage.
+- Support tickets.
+
+Admin application:
+- Admin login.
+- Admin dashboard.
+- Businesses.
+- Business details.
+- Plans.
+- Support.
+- Audit logs.
+- Admin settings.
+
+For every page:
+- Create a separate CSS file.
+- Implement loading, empty, success, and error states.
+- Connect to the actual backend.
+- Use reusable form and table components.
+- Add client-side validation for usability and server-side validation for security.
+- Protect routes and handle expired sessions.
+- Ensure the interface works on mobile devices.
+
+### 23. Suggested Frontend Folder Structure
+
+client/src/
+- components/
+  - common/
+  - forms/
+  - tables/
+  - charts/
+  - navigation/
+- layouts/
+- pages/
+  - public/
+  - auth/
+  - dashboard/
+  - products/
+  - categories/
+  - customers/
+  - suppliers/
+  - sales/
+  - expenses/
+  - reports/
+  - settings/
+  - admin/
+- services/
+- context/
+- hooks/
+- utils/
+- styles/
+- App.jsx
+- main.jsx
+
+### 24. Suggested Backend Folder Structure
+
+server/src/
+- config/
+- models/
+- routes/
+- controllers/
+- services/
+- validators/
+- middleware/
+- utils/
+- jobs/
+- templates/
+- app.js
+- server.js
+
+server/tests/
+- unit/
+- integration/
+
+Keep business logic out of route handlers. Controllers should coordinate requests and responses, while services implement the business rules.
+
+### 25. Security and Privacy
+
+Follow secure application development practices.
+
+Implement:
+- Password hashing.
+- Safe authentication and session handling.
+- Authorization on every protected operation.
+- Tenant-level data isolation.
+- Request validation and sanitization.
+- CORS restricted to configured frontend origins.
+- Helmet security headers.
+- Rate limiting.
+- Secure file upload restrictions.
+- Safe error responses.
+- Secrets stored in environment variables.
+- Audit logs for sensitive actions.
+- Protection against cross-tenant access and insecure direct object references.
+- Dependency auditing.
+- Automated tests for authorization failures.
+- Database backups and recovery procedures appropriate to the hosting plan.
+- Data export and account deletion workflows that preserve required financial records.
+
+Do not collect Aadhaar, PAN, banking credentials, or other sensitive identifiers unless a clearly justified feature requires them. Do not store payment card details.
+
+### 26. Testing Requirements
+
+Write tests for:
+- Registration and login.
+- Invalid credentials.
+- Protected routes.
+- Business ownership checks.
+- Cross-tenant access attempts.
+- Product CRUD.
+- SKU uniqueness.
+- Stock validation.
+- Concurrent sale behavior.
+- Invoice totals and discounts.
+- Payment allocation.
+- Refunds and cancellations.
+- Report calculations.
+- Admin authorization.
+- Input validation.
+- Error handling.
+
+Use isolated test data and do not run destructive test operations against production.
+
+For every module, provide:
+1. Test cases.
+2. Automated tests.
+3. Manual testing instructions.
+4. Expected results.
+5. Fixes for any failing tests before moving on.
+
+### 27. Deployment and DevOps
+
+Prepare:
+- Root README.
+- Client and server setup instructions.
+- .env.example files without real credentials.
+- Git ignore rules.
+- Production environment configuration.
+- MongoDB Atlas setup instructions.
+- Frontend deployment instructions.
+- Backend deployment instructions.
+- CORS and cookie configuration for the deployed domains.
+- Health endpoint.
+- API documentation.
+- Database backup guidance.
+- CI workflow for linting and tests.
+- Deployment verification checklist.
+
+Never commit real .env files or secrets.
+
+The deployed application must use HTTPS, production-safe cookie settings where applicable, appropriate CORS rules, and a restricted database user.
+
+### 28. Development Workflow
+
+Build the project incrementally in these phases:
+
+Phase 1: Requirements validation, MVP scope, architecture, database design, and repository setup.
+
+Phase 2: Backend foundation, MongoDB connection, health endpoint, error handling, and validation.
+
+Phase 3: Authentication, onboarding, business accounts, and tenant isolation.
+
+Phase 4: Product, category, and inventory management.
+
+Phase 5: Customer and supplier management.
+
+Phase 6: Sales, payments, invoice generation, and stock consistency.
+
+Phase 7: Expenses, dashboard, and reports.
+
+Phase 8: Notifications, support, and admin panel.
+
+Phase 9: Frontend polish, accessibility, and mobile responsiveness.
+
+Phase 10: Security testing, integration testing, and bug fixing.
+
+Phase 11: Production deployment and documentation.
+
+Phase 12: Pilot onboarding, user feedback, and launch improvements.
+
+### 29. Strict Instructions for the AI Developer
+
+- Do not generate the entire project in one enormous response.
+- Begin by confirming requirements, identifying assumptions, and creating the architecture.
+- Then implement the project one phase at a time.
+- Provide complete code for each file being implemented.
+- Always state the exact file path before showing its code.
+- Explain why each important file exists.
+- Include installation commands and configuration steps.
+- Never silently omit required imports, dependencies, or environment variables.
+- Do not replace real backend functionality with hardcoded arrays or fake API responses.
+- Do not proceed to the next phase while critical tests are failing.
+- Do not overwrite working files without explaining the change.
+- Keep naming consistent across frontend, backend, database, and API documentation.
+- Provide troubleshooting steps for common errors.
+- Maintain a running checklist of completed and pending modules.
+- After every phase, show how to run the application and verify its behavior.
+- Prefer simple, maintainable solutions over unnecessary abstractions.
+- If a requirement is ambiguous, state the assumption or ask a focused question.
+- Clearly distinguish implemented features from planned features.
+- Never claim the product is production-ready merely because it runs locally.
+
+### 30. Definition of Done
+
+BizSathi is ready for its first public pilot when:
+- A business owner can register and configure a business.
+- Users can securely log in and access authorized modules.
+- Different businesses cannot access one another's data.
+- Owners can manage products, customers, inventory, and sales.
+- Sales update stock and financial records consistently.
+- Invoices can be generated and downloaded.
+- Payments and outstanding balances are calculated correctly.
+- Dashboard metrics come from real database records.
+- Critical security and integration tests pass.
+- The interface is responsive and usable on mobile and desktop.
+- The application is deployed and accessible through HTTPS.
+- Setup instructions, API documentation, and a demo are available.
+- Known limitations are documented.
+- At least a small group of real pilot users has tested the product and provided feedback.
+
+### FIRST TASK
+
+Start with Phase 1.
+
+Deliver:
+1. A concise product requirements document.
+2. Target user personas and problem-validation questions.
+3. A prioritized MVP feature list.
+4. System architecture and request-flow explanation.
+5. Database entity relationships.
+6. Complete initial folder structure.
+7. Environment and dependency plan.
+8. A development checklist divided into manageable daily sessions of 2–3 hours.
+9. Acceptance criteria and testing strategy for each phase.
+
+After presenting Phase 1, wait for approval before implementing Phase 2. Guide me as a developer and mentor, not just a code generator.
